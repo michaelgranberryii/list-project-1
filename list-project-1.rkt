@@ -101,13 +101,28 @@ x: list of lists
   (map (lambda (z) (cons a z)) x)
   )
 
+
+
+#|
+(permute x)
+x: list
+|#
+(define (permute x)
+  (cond
+    ((empty? x) null)
+    ((empty? (cdr x)) (list x))
+    ((empty? (cddr x)) (list x (reverse x)))
+    (else (ph-2 x (- (length x) 1)))
+    )
+  )
+
 #|
 ph-1
 x: list
 n: index
 |#
 (define (ph-1 x n)
-  (cons-to-all (list-item-n x n) (permute (list-minus-item-n x n)))
+  (cons-to-all-map (list-item-n x n) (permute (list-minus-item-n x n)))
   )  
 
 #|
@@ -118,23 +133,9 @@ n: index
 (define (ph-2 x n)
   (cond 
     ((= n 0) (ph-1 x n))
-    (else (ph-1 x (- n 1)))
+    (else (append (ph-1 x n) (ph-2 x (- n 1))))
     )
   )
-
-#|
-(permute x)
-x: list
-|#
-(define (permute x)
-  (cond
-    ((empty? x) null)
-    ((empty? (cdr x)) (list x))
-    ((empty? (cddr x)) (list (reverse x)))
-    (else (ph-2 x (- (length x) 1)))
-    )
-  )
-    
 
 
 ;--------------------------------------------------------------
@@ -207,27 +208,25 @@ x: list
 (cons-to-all 'a '((b c) (d e) (f g)))
 
 ;--------------------------------------------------------------
-(displayln "")
+;(displayln "")
 ; Test cases (ph-1 x n)
-(displayln "Test cases for (ph-1 x n)")
-(ph-1 '(a b c d) 0)
-(ph-1 '(a b c d) 1)
-(ph-1 '(a b c d) 2)
-(ph-1 '(a b c d) 3)
+;(displayln "Test cases for (ph-1 x n)")
+;(ph-1 '(a b c d) 0)
+;(ph-1 '(a b c d) 1)
+;(ph-1 '(a b c d) 2)
+;(ph-1 '(a b c d) 3)
 
 ;--------------------------------------------------------------
-(displayln "")
+;(displayln "")
 ; Test cases (ph-2 x)
-(displayln "Test cases for (ph-2 x)")
-(ph-1 '(a b c d) 0)
-(ph-1 '(a b c d) 1)
-(ph-1 '(a b c d) 2)
-(ph-1 '(a b c d) 3)
+;(displayln "Test cases for (ph-2 x)")
+;(ph-1 '(a b c d) 0)
+;(ph-1 '(a b c d) 1)
+;(ph-1 '(a b c d) 2)
+;(ph-1 '(a b c d) 3)
 
 ;--------------------------------------------------------------
 (displayln "")
 ; Test cases (permute x)
 (displayln "Test cases for (permute x)")
-(permute '(a b))
 (permute '(a b c))
-(permute '(a b c d))
